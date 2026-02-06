@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% block content %}
+
+<h1 align="center">Timers</h1>
+<div>
+    First timer
+    <div id = "time">
+        0.0
+    </div>
+    <button id="start">Start</button>
+    <button id="pause">Pause</button>
+    <button id="reset">Reset</button>
+</div>
+<script src="{{ url_for('static', filename='timer.js') }}"></script>
+{% endblock %}

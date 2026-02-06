@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from .models import Note
 from . import db
-import json
+import json, random, os, time, datetime
+from threading import Thread
 
 views = Blueprint('views', __name__)
 
@@ -33,3 +34,8 @@ def delete_note():
 
     return jsonify({})
 
+@views.route('/stopwatches')
+def start_stopwatch():
+
+
+    return render_template("stopwatches.html")
