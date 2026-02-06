@@ -26,7 +26,7 @@ if (localStorage.getItem("running") == null) {
     running = false;
     localStorage.setItem("running", running);
 } else {
-    running = parseBool(localStorage.getItem("running"));
+    running = parseBoolean(localStorage.getItem("running"));
 }
 
 function showtime(){
@@ -39,7 +39,7 @@ function showtime(){
     time.innerText = Math.round(elapsed / 1000);
 };
 
-function parseBool(val)
+function parseBoolean(val)
 {
     if (val == "true")
     {
