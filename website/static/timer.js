@@ -1,7 +1,6 @@
 
 const time = document.getElementById("time");
-const startB = document.getElementById("start")
-const pauseB = document.getElementById("pause")
+const startB = document.getElementById("startPause")
 const resetB = document.getElementById("reset")
 
 let start;
@@ -33,9 +32,6 @@ function showtime(){
     if (running == true){
         elapsed = Date.now() - start;
     }
-    else {
-        start = Date.now() - elapsed;
-    }
     time.innerText = Math.round(elapsed / 1000);
 };
 
@@ -53,15 +49,23 @@ function parseBoolean(val)
 setInterval(showtime, 1000);
 
 startB.addEventListener("click", function(){
-    running = true;
+    if (!running) {
+            start = Date.now() - elapsed;
+            running = true;
+            startB.innerText = "Pause";
+    }
+    else {
+        elapsed = Date.now() - start;
+        running = false;
+        startB.innerText = "Start";
+    }
 });
 
-pauseB.addEventListener("click", function(){
-    running = false;
-});
 
 resetB.addEventListener("click", function(){
     elapsed = 0;
     running = false
+    time.innerText = 0;
     localStorage.setItem("elapsed", elapsed);
+    startB.innerText = "Start";
 });

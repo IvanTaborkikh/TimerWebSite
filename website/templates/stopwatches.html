@@ -2,14 +2,25 @@
 {% block content %}
 
 <h1 align="center">Timers</h1>
+
+<div>
+    <button id="createStopwatch">Create Stopwatch</button>
+</div>
+
+<div id="timersContainer">
+
+</div>
+
 <div>
     First timer
     <div id = "time">
         0.0
     </div>
-    <button id="start">Start</button>
-    <button id="pause">Pause</button>
+    <button id="startPause">Start</button>
     <button id="reset">Reset</button>
 </div>
 <script src="{{ url_for('static', filename='timer.js') }}"></script>
+<script src="{{ url_for('static', filename='stopwatchClass.js') }}"></script>
+<script src="{{ url_for('static', filename='createStopwatches.js') }}"></script>
+
 {% endblock %}
