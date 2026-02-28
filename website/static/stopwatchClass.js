@@ -5,8 +5,10 @@ class Stopwatch {
         this.elapsed = 0;
         this.running = false;
         this.startTime = 0;
+        this.interval = null;
 
         this.createDOM();
+        this.addEvents();
     }
 
     createDOM() {
@@ -30,7 +32,6 @@ class Stopwatch {
         this.resetButton = document.createElement("button");
         this.resetButton.innerText = "Reset";
 
-
         this.container.appendChild(this.title);
         this.container.appendChild(this.timeDisplay);
         this.container.appendChild(this.startButton);
@@ -38,5 +39,44 @@ class Stopwatch {
 
         document.getElementById("timersContainer")
                 .appendChild(this.container);
+    }
+
+    addEvents() {
+        this.startButton.addEventListener("click", () => {
+            if (!this.running) {
+                this.start();
+            } else {
+                this.pause();
+            }
+        });
+
+        this.resetButton.addEventListener("click", () => {
+            this.reset();
+        });
+    }
+
+    start() {
+        this.running = true;
+        this.startTime = Date.now() - this.elapsed;
+        this.startButton.innerText = "Pause";
+
+        this.interval = setInterval(() => {
+            this.elapsed = Date.now() - this.startTime;
+            this.timeDisplay.innerText = Math.floor(this.elapsed / 1000);
+        }, 1000);
+    }
+
+    pause() {
+        this.running = false;
+        clearInterval(this.interval);
+        this.startButton.innerText = "Start";
+    }
+
+    reset() {
+        this.running = false;
+        clearInterval(this.interval);
+        this.elapsed = 0;
+        this.timeDisplay.innerText = "0";
+        this.startButton.innerText = "Start";
     }
 }
