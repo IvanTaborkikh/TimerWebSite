@@ -15,3 +15,16 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     nick_name = db.Column(db.String(150))
     notes = db.relationship('Note')
+    timers = db.relationship('Timer', backref='user')
+
+class Timer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String(150))
+    color = db.Column(db.String(150))
+
+    elapsed_time = db.Column(db.Integer, default=0)
+    is_running = db.Column(db.Boolean, default=False)
+    start_time = db.Column(db.DateTime(timezone=True), nullable=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

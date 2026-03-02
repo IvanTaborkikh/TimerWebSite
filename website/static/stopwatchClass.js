@@ -73,6 +73,7 @@ class Stopwatch {
     }
 
     start() {
+        if (this.running) return;
         Stopwatches.forEach(sw => {
             if (sw !== this) {
                 sw.pause();
@@ -105,7 +106,6 @@ class Stopwatch {
 
     deleteB() {
         this.pause();
-        clearInterval(this.interval);
         const index = Stopwatches.indexOf(this);
         if (index > -1) {
             Stopwatches.splice(index, 1);
