@@ -30,11 +30,12 @@ The ultimate goal of TimerWebSite is to provide users with detailed weekly analy
 ### ✅ Current Features
 - **User Authentication**: Built with Flask, ensuring secure access to user accounts.
 - **Note-Taking Dashboard**: A simple interface for creating, editing, and deleting personal notes.
-
-### 🚧 In Development
 - **Timers Module**:
   - **Custom-Named Trackers**: Users can create timers for specific tasks.
   - **Mutual Exclusion Logic**: Only one timer can be active at any given moment. Starting a new timer automatically pauses the previous one, ensuring data integrity and focused work.
+
+### 🚧 In Development
+
 
 ### 🌟 Future Roadmap
 - **Weekly Time Analysis**: Generate detailed reports to identify time-wasters and optimize schedules.
