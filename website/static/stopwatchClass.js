@@ -1,3 +1,6 @@
+let Stopwatches = [];
+
+
 class Stopwatch {
     constructor(name, color) {
         this.name = name;
@@ -8,6 +11,7 @@ class Stopwatch {
         this.interval = null;
 
         this.createDOM();
+        Stopwatches.push(this);
         this.addEvents();
     }
 
@@ -32,13 +36,22 @@ class Stopwatch {
         this.resetButton = document.createElement("button");
         this.resetButton.innerText = "Reset";
 
+        this.deleteButton = document.createElement("button");
+        this.deleteButton.innerText = "Delete";
+
+        this.buttonContainer = document.createElement("div");
+        this.buttonContainer.style.display = "flex";
+        this.buttonContainer.style.gap = "40px";
+
+        this.buttonContainer.appendChild(this.startButton);
+        this.buttonContainer.appendChild(this.resetButton);
+        this.buttonContainer.appendChild(this.deleteButton);
+
         this.container.appendChild(this.title);
         this.container.appendChild(this.timeDisplay);
-        this.container.appendChild(this.startButton);
-        this.container.appendChild(this.resetButton);
+        this.container.appendChild(this.buttonContainer);
 
-        document.getElementById("timersContainer")
-                .appendChild(this.container);
+        document.getElementById("timersContainer").appendChild(this.container);
     }
 
     addEvents() {
@@ -50,12 +63,22 @@ class Stopwatch {
             }
         });
 
+        this.deleteButton.addEventListener("click", () => {
+            this.deleteB();
+        });
+
         this.resetButton.addEventListener("click", () => {
             this.reset();
         });
     }
 
     start() {
+        Stopwatches.forEach(sw => {
+            if (sw !== this) {
+                sw.pause();
+            }
+        });
+
         this.running = true;
         this.startTime = Date.now() - this.elapsed;
         this.startButton.innerText = "Pause";
@@ -78,5 +101,17 @@ class Stopwatch {
         this.elapsed = 0;
         this.timeDisplay.innerText = "0";
         this.startButton.innerText = "Start";
+    }
+
+    deleteB() {
+        this.pause();
+        clearInterval(this.interval);
+        const index = Stopwatches.indexOf(this);
+        if (index > -1) {
+            Stopwatches.splice(index, 1);
+        }
+        if (this.container && this.container.parentNode) {
+            this.container.parentNode.removeChild(this.container);
+        }
     }
 }
