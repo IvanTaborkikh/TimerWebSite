@@ -46,19 +46,18 @@ def start_stopwatch():
 def timers():
     if request.method == 'POST':
         data = request.get_json()
-        name = data['name']
-        color = data['color']
+        name = data.get('name')
+        color = data.get('color')
         user_id = current_user.id
 
-        if len(name) < 1:
-            flash('Note is too short!', category='error')
-        elif len(color) < 2:
-            flash('Color name is too short!', category='error')
+        if not name or len(name) < 1:
+            return jsonify({"error": "Name is too small"}), 400
+        elif not color or len(color) < 2:
+            return jsonify({"error": "Color is too smal"}), 400
         else:
             new_timer = Timer(name=name, color=color, user_id=user_id)
             db.session.add(new_timer)
             db.session.commit()
-            flash('Timer is added!', category='success')
             return jsonify({"message": "Timer created"}), 201
     elif request.method == 'GET':
         timers = Timer.query.filter_by(user_id=current_user.id).all()
@@ -72,25 +71,31 @@ def timers():
                 'is_running': timer.is_running,
                 'start_time': timer.start_time.isoformat() if timer.start_time else None
             })
-        return jsonify(timers_data)
+        return jsonify(timers_data), 200
 
 
 @views.route('/api/timers/<id>/start', methods=['POST'])
 @login_required
 def start_timer(id):
     if request.method == 'POST':
+        timer = Timer.query.get(int(id))
+
+        if not timer or timer.user_id != current_user.id:
+            return jsonify({"error": "Not allowed"}), 403
+
         timers = Timer.query.filter_by(user_id=current_user.id, is_running=True).all()
-        for timer in timers:
-            if timer.id != int(id):
-                if timer.start_time != None:
-                    timer.elapsed_time += int((datetime.utcnow() - timer.start_time)).total_seconds()
-                timer.is_running = False
-                timer.start_time = None
-            else:
-                timer.is_running = True
-                timer.start_time = datetime.utcnow()
+
+        for t in timers:
+            if t.start_time != None:
+                t.elapsed_time += int((datetime.utcnow() - t.start_time).total_seconds())
+            t.is_running = False
+            t.start_time = None
+
+        timer.is_running = True
+        timer.start_time = datetime.utcnow()
+
         db.session.commit()
-        jsonify({"message": "Timer started"})
+        return jsonify({"message": "Timer started"}), 200
 
 
 
@@ -102,10 +107,12 @@ def pause_timer(id):
         if timer and timer.user_id == current_user.id:
             if timer.is_running:
                 timer.is_running = False
-                timer.elapsed_time += int((datetime.utcnow() - timer.start_time)).total_seconds()
+                timer.elapsed_time += int((datetime.utcnow() - timer.start_time).total_seconds())
                 timer.start_time = None
-                db.session.commit()
-                jsonify({"message": "Timer paused"})
+            db.session.commit()
+            return jsonify({"message": "Timer paused"}), 200
+        else:
+            return jsonify({"error": "Not allowed"}), 403
 
 
 @views.route('/api/timers/<id>', methods=['DELETE'])
@@ -116,5 +123,7 @@ def delete_timer(id):
         if timer and timer.user_id == current_user.id:
             db.session.delete(timer)
             db.session.commit()
-            jsonify({"message": "deleted"})
+            return jsonify({"message": "deleted"}), 200
+        else:
+            return jsonify({"error": "Not allowed"}), 403
 
