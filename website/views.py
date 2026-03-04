@@ -63,11 +63,18 @@ def timers():
         timers = Timer.query.filter_by(user_id=current_user.id).all()
         timers_data = []
         for timer in timers:
+            if timer.is_running and timer.start_time:
+                now = datetime.utcnow()
+                delta = now - timer.start_time
+                total_seconds = timer.elapsed_time + int(delta.total_seconds())
+            else:
+                total_seconds = timer.elapsed_time
+
             timers_data.append({
                 'id': timer.id,
                 'name': timer.name,
                 'color': timer.color,
-                'elapsed_time': timer.elapsed_time,
+                'elapsed_time': total_seconds,
                 'is_running': timer.is_running,
                 'start_time': timer.start_time.isoformat() if timer.start_time else None
             })

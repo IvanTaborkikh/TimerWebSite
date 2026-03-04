@@ -6,21 +6,36 @@
 <div>
     <button id="createStopwatch">Create Stopwatch</button>
 </div>
+<div id="modalOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
 
-<div id="timersContainer">
+    <div style="background:white; padding:25px; border-radius:15px; width:300px;">
 
-</div>
+        <h3>Create Timer</h3>
 
-<div>
-    First timer
-    <div id = "time">
-        0.0
+        <input id="timerNameInput" type="text" placeholder="Timer name"
+               style="width:100%; margin-bottom:15px; padding:8px;">
+
+        <div style="margin-bottom:15px;">
+            <div>Choose color:</div>
+            <div id="presetColors" style="display:flex; gap:8px; margin-top:8px;"></div>
+        </div>
+
+        <div style="margin-bottom:15px;">
+            <div>Or custom:</div>
+            <input type="color" id="customColorPicker">
+        </div>
+
+        <div style="display:flex; justify-content:space-between;">
+            <button id="cancelCreate">Cancel</button>
+            <button id="confirmCreate">Create</button>
+        </div>
+
     </div>
-    <button id="startPause">Start</button>
-    <button id="reset">Reset</button>
 </div>
-<script src="{{ url_for('static', filename='timer.js') }}"></script>
+<div id="timersContainer">
+</div>
+
 <script src="{{ url_for('static', filename='stopwatchClass.js') }}"></script>
-<script src="{{ url_for('static', filename='createStopwatches.js') }}"></script>
+<script src="{{ url_for('static', filename='backendTimersController.js') }}"></script>
 
 {% endblock %}
