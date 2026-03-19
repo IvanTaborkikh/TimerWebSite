@@ -85,6 +85,20 @@ Security is a core pillar of TimerWebSite. The platform features a dedicated aut
 
 ---
 
+
+### ⏱️ Stopwatches Module (🚧In Development🚧)
+
+![Stopwatches Page](screenshots/stopwatches_page.png)
+*Figure 4: Stopwatches page.*  
+
+![Stopwatche Creation](screenshots/stopwatch_creation.png)  
+*Figure 5: Stopwatches creation window.*  
+
+
+The upcoming **Stopwatches Module** allows users to create custom-named timers for various activities. Users can create multiple timers, each representing a different task.
+
+The module includes a mutual exclusion mechanism, ensuring that only one timer can run at a time. When a new timer is started, any currently active timer is automatically paused.
+
 ### 📈 Time Analysis (Coming Soon)
 *Placeholder for the upcoming Analytics Dashboard, which will visualize weekly time distribution through dynamic charts.*
 

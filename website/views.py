@@ -90,13 +90,14 @@ def start_timer(id):
         if not timer or timer.user_id != current_user.id:
             return jsonify({"error": "Not allowed"}), 403
 
-        timers = Timer.query.filter_by(user_id=current_user.id, is_running=True).all()
+        timers = Timer.query.filter_by(user_id=current_user.id).all()
 
         for t in timers:
-            if t.start_time != None:
+            if t.is_running and t.start_time:
                 t.elapsed_time += int((datetime.utcnow() - t.start_time).total_seconds())
             t.is_running = False
             t.start_time = None
+
 
         timer.is_running = True
         timer.start_time = datetime.utcnow()

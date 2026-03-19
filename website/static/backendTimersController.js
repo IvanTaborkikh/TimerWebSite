@@ -175,18 +175,18 @@ const presetColors = [
     "#1abc9c"
 ];
 
-// відкриття модалки
+
 createBtn.addEventListener("click", () => {
     modal.style.display = "flex";
 });
 
-// закриття
+
 cancelBtn.addEventListener("click", () => {
     modal.style.display = "none";
     nameInput.value = "";
 });
 
-// створюємо кольорові кружечки
+
 presetColors.forEach(color => {
 
     const circle = document.createElement("div");
@@ -210,12 +210,12 @@ presetColors.forEach(color => {
     presetContainer.appendChild(circle);
 });
 
-// якщо вибрали кастомний
+
 customColorPicker.addEventListener("input", () => {
     selectedColor = customColorPicker.value;
 });
 
-// підтвердження створення
+
 confirmBtn.addEventListener("click", async () => {
 
     const name = nameInput.value.trim();
